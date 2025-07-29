@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Lock, Sparkles, CheckCircle, QrCode } from "lucide-react";
+import { Lock, Sparkles, CheckCircle, QrCode, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { t } from "@/lib/translations";
 import Image from "next/image";
@@ -20,6 +20,7 @@ interface BottomActionSheetProps {
   showUnlockProcessing?: boolean;
   showCheckout?: boolean;
   showQrScan?: boolean;
+  showError?: boolean;
   unlockStage?: "unlocking" | "calculating" | "complete";
   amount?: number;
   order?: any | null;
@@ -38,6 +39,7 @@ export function BottomActionSheet({
   showUnlockProcessing = false,
   showCheckout = false,
   showQrScan = false,
+  showError = false,
   unlockStage = "unlocking",
   amount = 200,
   order = null,
@@ -364,6 +366,47 @@ export function BottomActionSheet({
                 {t("scanQrDescription", language)}
               </p>
             </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Error Screen
+  if (showError) {
+    return (
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg p-4 z-50">
+        <div className="mx-auto relative">
+          <div className="absolute left-1/2 transform -translate-x-1/2 translate-y-1/3 bottom-full">
+            <div className="relative">
+              {/* Main error icon circle - red background, no blue border */}
+              <div
+                className="w-16 h-16 rounded-full border-4 border-red-500 flex items-center justify-center relative z-10"
+                style={{ backgroundColor: "#EF4444" }}
+              >
+                <X className="w-6 h-6" style={{ color: "#FFFFFF" }} />
+              </div>
+            </div>
+          </div>
+          
+          <div className="flex flex-col items-center justify-center space-y-3 pt-8">
+            <div className="text-center">
+              <h2 className="text-lg font-bold text-red-600">{t("errorOccurred", language)}</h2>
+              <p className="text-sm text-muted-foreground max-w-md">
+                {t("errorDescription", language)}
+              </p>
+            </div>
+            
+            {/* Retry Button */}
+            <Button
+              onClick={onClose}
+              className="w-full max-w-xs text-white"
+              style={{ backgroundColor: "#EF4444" }}
+              onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#DC2626")}
+              onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#EF4444")}
+            >
+              {t("cancel", language)}
+            </Button>
           </div>
         </div>
       </div>

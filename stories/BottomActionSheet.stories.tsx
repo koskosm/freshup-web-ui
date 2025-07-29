@@ -45,6 +45,15 @@ const meta: Meta<typeof BottomActionSheet> = {
     showUnlockProcessing: {
       control: "boolean",
     },
+    showCheckout: {
+      control: "boolean",
+    },
+    showQrScan: {
+      control: "boolean",
+    },
+    showError: {
+      control: "boolean",
+    },
     unlockStage: {
       control: { type: "select" },
       options: ["unlocking", "calculating", "complete"],
@@ -453,6 +462,46 @@ export const QrScanChinese: Story = {
     docs: {
       description: {
         story: "Shows the QR scan screen in Chinese for logged-in users to scan fridge QR codes.",
+      },
+    },
+  },
+};
+
+export const Error: Story = {
+  args: {
+    user: {
+      id: "1",
+      name: "Frank",
+      phone: "+852 6356 3334",
+      isAuthenticated: true,
+    },
+    language: "en",
+    showError: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Shows the error state with red circle and X icon when an error occurs.",
+      },
+    },
+  },
+};
+
+export const ErrorChinese: Story = {
+  args: {
+    user: {
+      id: "1",
+      name: "Frank",
+      phone: "+852 6356 3334",
+      isAuthenticated: true,
+    },
+    language: "zh",
+    showError: true,
+  },
+  parameters: {
+    docs: {
+      description: {
+        story: "Shows the error state in Chinese with red circle and X icon when an error occurs.",
       },
     },
   },

@@ -91,6 +91,10 @@ export const translations = {
     // QR Scan
     scanQrTitle: "Scan a Smart Fridge QR to get started",
     scanQrDescription: "Tap the QR code icon to scan and identify which fridge you want to unlock.",
+
+    // Error State
+    errorOccurred: "An error occurred",
+    errorDescription: "Something went wrong. Please try again or contact support if the problem persists.",
   },
   zh: {
     // Header
@@ -182,6 +186,10 @@ export const translations = {
     // QR Scan
     scanQrTitle: "掃描智能冰箱二維碼開始使用",
     scanQrDescription: "點擊二維碼圖標掃描並識別您想要解鎖的冰箱。",
+
+    // Error State
+    errorOccurred: "發生錯誤",
+    errorDescription: "出現問題。請重試或聯絡支援。",
   },
 }
 
