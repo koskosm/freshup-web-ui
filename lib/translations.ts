@@ -87,6 +87,10 @@ export const translations = {
     smartVendingExperience: "Smart Vending Experience",
     smartVendingDesc:
       "Browse our products below. A $200 security deposit is required to unlock the door. Take what you want - our smart sensors will detect items and calculate the final amount. Any remaining deposit will be refunded.",
+
+    // QR Scan
+    scanQrTitle: "Scan a Smart Fridge QR to get started",
+    scanQrDescription: "Tap the QR code icon to scan and identify which fridge you want to unlock.",
   },
   zh: {
     // Header
@@ -174,6 +178,10 @@ export const translations = {
     smartVendingExperience: "智能售貨體驗",
     smartVendingDesc:
       "瀏覽下方產品。需要 $200 保證金才能解鎖門。拿取您想要的物品 - 我們的智能感應器會檢測物品並計算最終金額。任何剩餘按金將被退還。",
+
+    // QR Scan
+    scanQrTitle: "掃描智能冰箱二維碼開始使用",
+    scanQrDescription: "點擊二維碼圖標掃描並識別您想要解鎖的冰箱。",
   },
 }
 

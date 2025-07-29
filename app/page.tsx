@@ -5,30 +5,29 @@ import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ProductCard } from "@/components/product-card"
 import { AuthModal } from "@/components/auth-modal"
-import { PaymentModal } from "@/components/payment-modal"
-import { UnlockModal } from "@/components/unlock-modal"
-import { CheckoutModal } from "@/components/checkout-modal"
 import { ProfilePage } from "@/components/profile-page"
 import { mockProducts } from "@/lib/mock-data"
 import type { CartItem, User, Order } from "@/lib/types"
-import { Lock } from "lucide-react"
-import { DetectionModal } from "@/components/detection-modal"
-import type { VendingSession, DetectedItem } from "@/lib/types"
+import { BottomActionSheet } from "@/components/bottom-action-sheet"
+import type { VendingSession } from "@/lib/types"
 import { t, type Language } from "@/lib/translations"
 
 export default function VendingMachineApp() {
   const [user, setUser] = useState<User | null>(null)
   const [language, setLanguage] = useState<Language>("en")
   const [showAuthModal, setShowAuthModal] = useState(false)
-  const [showPaymentModal, setShowPaymentModal] = useState(false)
-  const [showDetectionModal, setShowDetectionModal] = useState(false)
-  const [showUnlockModal, setShowUnlockModal] = useState(false)
-  const [showCheckoutModal, setShowCheckoutModal] = useState(false)
   const [showProfilePage, setShowProfilePage] = useState(false)
   const [unlockStage, setUnlockStage] = useState<"unlocking" | "calculating" | "complete">("unlocking")
   const [currentOrder, setCurrentOrder] = useState<Order | null>(null)
   const [vendingSession, setVendingSession] = useState<VendingSession | null>(null)
   const [depositPaid, setDepositPaid] = useState(false)
+  
+  // BottomActionSheet states
+  const [showPaymentSelection, setShowPaymentSelection] = useState(false)
+  const [showPaymentProcessing, setShowPaymentProcessing] = useState(false)
+  const [showUnlockProcessing, setShowUnlockProcessing] = useState(false)
+  const [showCheckout, setShowCheckout] = useState(false)
+  const [showQrScan, setShowQrScan] = useState(false)
 
   const DEPOSIT_AMOUNT = 200
 
@@ -43,9 +42,9 @@ export default function VendingMachineApp() {
       phone,
       isAuthenticated: true,
     })
-    // Automatically proceed to payment selection after login
+    // Automatically proceed to QR scan after login
     setShowAuthModal(false)
-    setShowPaymentModal(true)
+    setShowQrScan(true)
   }
 
   const handleLogout = () => {
@@ -68,50 +67,65 @@ export default function VendingMachineApp() {
       return
     }
 
-    // Show payment modal first
-    setShowPaymentModal(true)
+    // Show payment selection first
+    setShowPaymentSelection(true)
   }
 
   const handlePaymentComplete = () => {
-    setShowPaymentModal(false)
-    setDepositPaid(true)
-
-    // Start vending session after payment
-    const session: VendingSession = {
-      id: Date.now().toString(),
-      userId: user!.id,
-      startTime: new Date(),
-      detectedItems: [],
-      status: "active",
-    }
-    setVendingSession(session)
-
-    setShowUnlockModal(true)
-    setUnlockStage("unlocking")
-
-    // Simulate door unlocking
+    setShowPaymentSelection(false)
+    setShowPaymentProcessing(true)
+    
+    // Simulate payment processing
     setTimeout(() => {
-      setShowUnlockModal(false)
-      setShowDetectionModal(true)
+      setShowPaymentProcessing(false)
+      setDepositPaid(true)
+
+      // Start vending session after payment
+      const session: VendingSession = {
+        id: Date.now().toString(),
+        userId: user!.id,
+        startTime: new Date(),
+        detectedItems: [],
+        status: "active",
+      }
+      setVendingSession(session)
+
+      setShowUnlockProcessing(true)
+      setUnlockStage("unlocking")
+
+      // Simulate door unlocking and proceed to calculation
+      setTimeout(() => {
+        setShowUnlockProcessing(false)
+        handleDetectionComplete()
+      }, 2000)
     }, 2000)
   }
 
-  const handleDetectionComplete = (detectedItems: DetectedItem[]) => {
-    setShowDetectionModal(false)
-    setShowUnlockModal(true)
+  const handleDetectionComplete = () => {
+    setShowUnlockProcessing(true)
     setUnlockStage("calculating")
 
-    // Convert detected items to cart items for order
-    const cartItems: CartItem[] = detectedItems.map((item) => ({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      quantity: item.quantity,
-      image: "/placeholder.svg",
-      category: "Soda",
-    }))
+    // Simulate detected items for order
+    const cartItems: CartItem[] = [
+      {
+        id: "1",
+        name: "Coca Cola",
+        price: 8.5,
+        quantity: 2,
+        image: "/placeholder.svg",
+        category: "Soda",
+      },
+      {
+        id: "2",
+        name: "Pepsi",
+        price: 8.0,
+        quantity: 1,
+        image: "/placeholder.svg",
+        category: "Soda",
+      },
+    ]
 
-    const total = detectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    const total = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
     setTimeout(() => {
       const order: Order = {
@@ -130,8 +144,8 @@ export default function VendingMachineApp() {
       setUnlockStage("complete")
 
       setTimeout(() => {
-        setShowUnlockModal(false)
-        setShowCheckoutModal(true)
+        setShowUnlockProcessing(false)
+        setShowCheckout(true)
         setVendingSession(null)
         setDepositPaid(false) // Reset for next transaction
       }, 2000)
@@ -205,77 +219,30 @@ export default function VendingMachineApp() {
           </div>
         </main>
 
-        {/* Sticky Bottom Action */}
-        <div className="fixed bottom-0 left-0 right-0 bg-white border-t shadow-lg p-4 z-50">
-          <div className="mx-auto relative">
-            <div className="absolute left-1/2 transform -translate-x-1/2 translate-y-1/3 bottom-full">
-              <div className="relative">
-                {/* Pulsating blue border behind */}
-                <div
-                  className="absolute inset-0 w-16 h-16 rounded-full bg-cyan-300 border-4 border-cyan-300 animate-pulse"
-                  style={{
-                    animation: "pulse-scale 2s infinite",
-                    transformOrigin: "center",
-                  }}
-                />
-                {/* Main lock icon circle */}
-                <div
-                  className="w-16 h-16 rounded-full border-4 border-cyan-300 flex items-center justify-center relative z-10"
-                  style={{ backgroundColor: "#FCBB34" }}
-                >
-                  <Lock className="w-6 h-6" style={{ color: "#B8860B" }} />
-                </div>
-              </div>
-            </div>
-
-            {/* Add the keyframe animation styles */}
-            <style jsx>{`
-              @keyframes pulse-scale {
-                0%, 100% {
-                  transform: scale(1);
-                  opacity: 1;
-                }
-                50% {
-                  transform: scale(1.2);
-                  opacity: 0.7;
-                }
-              }
-            `}</style>
-            <div className="flex flex-col items-center justify-center space-y-3 pt-8">
-              <div className="text-center">
-                <h2 className="text-lg font-bold">
-                  {user ? t("payDepositUnlock", language) : t("registerLoginUnlock", language)}
-                </h2>
-                <p className="text-sm text-muted-foreground max-w-md">
-                  {user ? t("securityDepositRequired", language) : t("signupLoginStart", language)}
-                </p>
-              </div>
-              {user ? (
-                <Button
-                  onClick={handleUnlockDoor}
-                  className="w-full max-w-xs text-white"
-                  style={{ backgroundColor: "#FCBB34" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#E6A82D")}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#FCBB34")}
-                  disabled={showDetectionModal || showUnlockModal || showPaymentModal}
-                >
-                  <Lock className="w-4 h-4 mr-2" />
-                  {t("payUnlock", language)}
-                </Button>
-              ) : (
-                <Button
-                  onClick={() => setShowAuthModal(true)}
-                  className="w-full max-w-xs text-white"
-                  style={{ backgroundColor: "#FCBB34" }}
-                  onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#E6A82D")}
-                  onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#FCBB34")}
-                >
-                  {t("signupLogin", language)}
-                </Button>
-              )}
-            </div>
-          </div>
-        </div>
+        {/* Bottom Action Sheet */}
+        <BottomActionSheet
+          user={user}
+          language={language}
+          onUnlockDoor={handleUnlockDoor}
+          onShowAuthModal={() => setShowAuthModal(true)}
+          onPaymentComplete={handlePaymentComplete}
+          onClose={() => {
+            setShowPaymentSelection(false)
+            setShowPaymentProcessing(false)
+            setShowUnlockProcessing(false)
+            setShowCheckout(false)
+            setShowQrScan(false)
+          }}
+          disabled={showUnlockProcessing || showPaymentProcessing || showPaymentSelection || showCheckout || showQrScan}
+          showPaymentSelection={showPaymentSelection}
+          showPaymentProcessing={showPaymentProcessing}
+          showUnlockProcessing={showUnlockProcessing}
+          showCheckout={showCheckout}
+          showQrScan={showQrScan}
+          unlockStage={unlockStage}
+          amount={DEPOSIT_AMOUNT}
+          order={currentOrder}
+        />
 
         {/* Modals */}
         <AuthModal
@@ -285,35 +252,9 @@ export default function VendingMachineApp() {
           onLogin={handleLogin}
         />
 
-        <PaymentModal
-          isOpen={showPaymentModal}
-          language={language}
-          onClose={() => setShowPaymentModal(false)}
-          onPaymentComplete={handlePaymentComplete}
-          amount={DEPOSIT_AMOUNT}
-        />
 
-        <DetectionModal
-          isOpen={showDetectionModal}
-          language={language}
-          onClose={() => setShowDetectionModal(false)}
-          onDetectionComplete={handleDetectionComplete}
-        />
 
-        <UnlockModal
-          isOpen={showUnlockModal}
-          language={language}
-          onClose={() => setShowUnlockModal(false)}
-          stage={unlockStage}
-        />
 
-        <CheckoutModal
-          isOpen={showCheckoutModal}
-          language={language}
-          onClose={() => setShowCheckoutModal(false)}
-          order={currentOrder}
-          depositAmount={DEPOSIT_AMOUNT}
-        />
       </div>
     </div>
   )
