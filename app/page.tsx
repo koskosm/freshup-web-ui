@@ -4,6 +4,7 @@ import { useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ProductsGrid } from "@/components/products-grid"
+import { HeroCarousel } from "@/components/hero-carousel"
 import { AuthModal } from "@/components/auth-modal"
 import { ProfilePage } from "@/components/profile-page"
 import { mockProducts } from "@/lib/mock-data"
@@ -220,14 +221,20 @@ export default function VendingMachineApp() {
             )}
           </div>
 
-          {/* Hero Image */}
-          <div className="mb-8 rounded-xl overflow-hidden">
-            <Image
-              src="/images/hero-drinks-new.png"
-              alt="Fresh tropical beverages on beach"
-              width={800}
-              height={300}
-              className="w-full h-48 object-cover"
+          {/* Hero Carousel */}
+          <div className="mb-8">
+            <HeroCarousel
+              images={[
+                {
+                  src: "/images/hero-drinks-new.png",
+                  alt: "Fresh tropical beverages on beach"
+                },
+                {
+                  src: "/images/hero-drinks.png",
+                  alt: "Refreshing drinks selection"
+                }
+              ]}
+              autoPlayInterval={4000}
             />
           </div>
 
