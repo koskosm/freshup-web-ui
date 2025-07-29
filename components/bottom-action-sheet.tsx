@@ -13,6 +13,7 @@ interface BottomActionSheetProps {
   onShowAuthModal: () => void;
   onPaymentComplete: () => void;
   onClose: () => void;
+  onFridgeScanned?: () => void;
   disabled?: boolean;
   // New states
   showPaymentSelection?: boolean;
@@ -33,6 +34,7 @@ export function BottomActionSheet({
   onShowAuthModal,
   onPaymentComplete,
   onClose,
+  onFridgeScanned,
   disabled = false,
   showPaymentSelection = false,
   showPaymentProcessing = false,
@@ -335,9 +337,13 @@ export function BottomActionSheet({
                 style={{ backgroundColor: "#FCBB34" }}
                 onClick={() => {
                   // Launch QR scanner
-                  // For demo purposes, we'll just trigger the unlock flow
+                  // For demo purposes, we'll just trigger the fridge scanning
                   // In a real app, this would open a QR scanner
-                  onUnlockDoor();
+                  if (onFridgeScanned) {
+                    onFridgeScanned();
+                  } else {
+                    onUnlockDoor();
+                  }
                 }}
               >
                 <QrCode className="w-6 h-6" style={{ color: "#B8860B" }} />

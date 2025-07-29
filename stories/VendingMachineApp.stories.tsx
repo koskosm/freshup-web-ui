@@ -8,7 +8,7 @@ const meta: Meta<typeof VendingMachineApp> = {
     layout: "fullscreen",
     docs: {
       description: {
-        component: "The main vending machine application interface with full-screen layout and no margins.",
+        component: "The main vending machine application page with different states including authentication, QR scanning, and payment flows.",
       },
     },
   },
@@ -19,34 +19,41 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  args: {},
-};
-
-export const WithUserLoggedIn: Story = {
-  args: {},
   parameters: {
     docs: {
       description: {
-        story: "This story shows the vending machine interface with a logged-in user. The user can interact with all features including payment, item detection, and checkout.",
+        story: "Shows the default state of the vending machine app with no user logged in. Users can click 'Sign up / Login' to start the authentication flow.",
       },
     },
   },
 };
 
-export const MobileView: Story = {
-  args: {},
+export const LoggedInWithQrScan: Story = {
   parameters: {
-    viewport: {
-      defaultViewport: "mobile1",
+    docs: {
+      description: {
+        story: "To see this state: 1) Click 'Sign up / Login' button, 2) Enter phone number and click 'Next', 3) The app will show QR scan state with empty product grid. This demonstrates when a user is logged in but hasn't scanned a fridge yet.",
+      },
     },
   },
 };
 
-export const TabletView: Story = {
-  args: {},
+export const AfterFridgeScanned: Story = {
   parameters: {
-    viewport: {
-      defaultViewport: "tablet",
+    docs: {
+      description: {
+        story: "To see this state: 1) Follow steps for LoggedInWithQrScan, 2) Click the QR code icon in the bottom action sheet, 3) The app will show full product list. This demonstrates after a user has scanned a fridge.",
+      },
+    },
+  },
+};
+
+export const PaymentFlow: Story = {
+  parameters: {
+    docs: {
+      description: {
+        story: "To see this state: 1) Follow steps for AfterFridgeScanned, 2) The payment selection will appear automatically. This demonstrates the payment flow after scanning a fridge.",
+      },
     },
   },
 }; 

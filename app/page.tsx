@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
-import { ProductCard } from "@/components/product-card"
+import { ProductsGrid } from "@/components/products-grid"
 import { AuthModal } from "@/components/auth-modal"
 import { ProfilePage } from "@/components/profile-page"
 import { mockProducts } from "@/lib/mock-data"
@@ -27,7 +27,8 @@ export default function VendingMachineApp() {
   const [showPaymentProcessing, setShowPaymentProcessing] = useState(false)
   const [showUnlockProcessing, setShowUnlockProcessing] = useState(false)
   const [showCheckout, setShowCheckout] = useState(false)
-  const [showQrScan, setShowQrScan] = useState(false)
+  const [showQrScan, setShowQrScan] = useState(true)
+  const [fridgeScanned, setFridgeScanned] = useState(false)
 
   const DEPOSIT_AMOUNT = 200
 
@@ -42,15 +43,21 @@ export default function VendingMachineApp() {
       phone,
       isAuthenticated: true,
     })
-    // Automatically proceed to QR scan after login
+    // After login, proceed to payment selection since fridge was already scanned
     setShowAuthModal(false)
-    setShowQrScan(true)
+    setShowPaymentSelection(true)
   }
 
   const handleLogout = () => {
     setUser(null)
     setVendingSession(null)
     setDepositPaid(false)
+    setFridgeScanned(false)
+    setShowQrScan(true)
+    setShowPaymentSelection(false)
+    setShowPaymentProcessing(false)
+    setShowUnlockProcessing(false)
+    setShowCheckout(false)
   }
 
   const handleProfileNavigation = () => {
@@ -69,6 +76,19 @@ export default function VendingMachineApp() {
 
     // Show payment selection first
     setShowPaymentSelection(true)
+  }
+
+  const handleFridgeScanned = () => {
+    setFridgeScanned(true)
+    setShowQrScan(false)
+    
+    // If user is not logged in, show auth modal
+    if (!user) {
+      setShowAuthModal(true)
+    } else {
+      // If user is logged in, proceed to payment selection
+      setShowPaymentSelection(true)
+    }
   }
 
   const handlePaymentComplete = () => {
@@ -212,11 +232,10 @@ export default function VendingMachineApp() {
           </div>
 
           {/* Products Grid - Display Only */}
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-            {mockProducts.map((product) => (
-              <ProductCard key={product.id} product={product} />
-            ))}
-          </div>
+          <ProductsGrid 
+            products={showQrScan ? [] : mockProducts} 
+            className="mb-8" 
+          />
         </main>
 
         {/* Bottom Action Sheet */}
@@ -226,12 +245,13 @@ export default function VendingMachineApp() {
           onUnlockDoor={handleUnlockDoor}
           onShowAuthModal={() => setShowAuthModal(true)}
           onPaymentComplete={handlePaymentComplete}
+          onFridgeScanned={handleFridgeScanned}
           onClose={() => {
             setShowPaymentSelection(false)
             setShowPaymentProcessing(false)
             setShowUnlockProcessing(false)
             setShowCheckout(false)
-            setShowQrScan(false)
+            setShowQrScan(true)
           }}
           disabled={showUnlockProcessing || showPaymentProcessing || showPaymentSelection || showCheckout || showQrScan}
           showPaymentSelection={showPaymentSelection}
