@@ -5,7 +5,12 @@ const meta: Meta<typeof ProfilePage> = {
   title: "Components/ProfilePage",
   component: ProfilePage,
   parameters: {
-    layout: "centered",
+    layout: "fullscreen",
+    docs: {
+      description: {
+        component: "The user profile page component with full-screen layout and no margins.",
+      },
+    },
   },
   tags: ["autodocs"],
   argTypes: {
