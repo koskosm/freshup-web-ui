@@ -12,12 +12,12 @@ export function ProductCard({ product }: ProductCardProps) {
   return (
     <Card className="overflow-hidden">
       <CardContent className="p-4">
-        <div className="aspect-[3/4] relative mb-4">
+        <div className="aspect-square relative mb-4 bg-gray-50 rounded-md overflow-hidden min-w-[60px] min-h-[60px]">
           <Image
-            src={product.image || "/placeholder.svg"}
+            src={product.image || "/images/freshup-logo.png"}
             alt={product.name}
             fill
-            className="object-cover rounded-md"
+            className={product.image ? "object-cover" : "object-contain"}
           />
         </div>
         <div className="space-y-2">
