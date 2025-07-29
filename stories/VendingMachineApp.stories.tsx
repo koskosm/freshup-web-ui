@@ -6,6 +6,11 @@ const meta: Meta<typeof VendingMachineApp> = {
   component: VendingMachineApp,
   parameters: {
     layout: "fullscreen",
+    docs: {
+      description: {
+        component: "The main vending machine application interface with full-screen layout and no margins.",
+      },
+    },
   },
   tags: ["autodocs"],
 };

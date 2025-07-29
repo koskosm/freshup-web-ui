@@ -27,11 +27,15 @@ const preview: Preview = {
     },
   },
   decorators: [
-    (Story) => (
-      <div style={{ padding: "2rem" }}>
-        <Story />
-      </div>
-    ),
+    (Story, context) => {
+      // Remove padding for fullscreen stories
+      const isFullscreen = context.parameters?.layout === "fullscreen";
+      return (
+        <div style={{ padding: isFullscreen ? 0 : "2rem" }}>
+          <Story />
+        </div>
+      );
+    },
   ],
 };
 
