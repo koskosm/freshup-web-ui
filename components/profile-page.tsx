@@ -11,9 +11,10 @@ interface ProfilePageProps {
   onLanguageToggle: () => void
   onBack: () => void
   onLogout: () => void
+  onViewOrders: () => void
 }
 
-export function ProfilePage({ user, language, onLanguageToggle, onBack, onLogout }: ProfilePageProps) {
+export function ProfilePage({ user, language, onLanguageToggle, onBack, onLogout, onViewOrders }: ProfilePageProps) {
   const handleLogout = () => {
     onLogout()
     onBack() // Go back to home after logout
@@ -55,7 +56,7 @@ export function ProfilePage({ user, language, onLanguageToggle, onBack, onLogout
           </div>
 
           <div className="py-4 border-b border-gray-200">
-            <button className="text-lg text-gray-900 w-full text-left">{t("viewMyOrders", language)}</button>
+            <button onClick={onViewOrders} className="text-lg text-gray-900 w-full text-left">{t("viewMyOrders", language)}</button>
           </div>
 
           <div className="py-4 border-b border-gray-200">

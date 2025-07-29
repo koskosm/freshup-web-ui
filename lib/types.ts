@@ -21,8 +21,11 @@ export interface Order {
   id: string
   items: CartItem[]
   total: number
-  status: "pending" | "processing" | "completed"
+  status: "pending" | "processing" | "completed" | "paid" | "checking_out" | "outstanding"
   orderNumber: string
+  location: string
+  date: string
+  depositAmount?: number
 }
 
 export interface DetectedItem {

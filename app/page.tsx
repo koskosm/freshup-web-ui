@@ -6,8 +6,9 @@ import { Button } from "@/components/ui/button"
 import { ProductsGrid } from "@/components/products-grid"
 import { HeroCarousel } from "@/components/hero-carousel"
 import { AuthModal } from "@/components/auth-modal"
+import { OrderListing } from "@/components/order-listing"
 import { ProfilePage } from "@/components/profile-page"
-import { mockProducts } from "@/lib/mock-data"
+import { mockProducts, mockOrders } from "@/lib/mock-data"
 import type { CartItem, User, Order } from "@/lib/types"
 import { BottomActionSheet } from "@/components/bottom-action-sheet"
 import type { VendingSession } from "@/lib/types"
@@ -30,6 +31,7 @@ export default function VendingMachineApp() {
   const [showCheckout, setShowCheckout] = useState(false)
   const [showQrScan, setShowQrScan] = useState(true)
   const [fridgeScanned, setFridgeScanned] = useState(false)
+  const [showOrderListing, setShowOrderListing] = useState(false)
 
   const DEPOSIT_AMOUNT = 200
 
@@ -67,6 +69,14 @@ export default function VendingMachineApp() {
 
   const handleBackFromProfile = () => {
     setShowProfilePage(false)
+  }
+
+  const handleViewOrders = () => {
+    setShowOrderListing(true)
+  }
+
+  const handleBackFromOrders = () => {
+    setShowOrderListing(false)
   }
 
   const handleUnlockDoor = () => {
@@ -159,6 +169,15 @@ export default function VendingMachineApp() {
           Math.floor(Math.random() * 1000)
             .toString()
             .padStart(3, "0"),
+        location: "Lai Chi Kok D2",
+        date: new Date().toLocaleString("en-US", {
+          day: "2-digit",
+          month: "2-digit",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          hour12: true
+        }).replace(",", ""),
       }
 
       setCurrentOrder(order)
@@ -173,6 +192,21 @@ export default function VendingMachineApp() {
     }, 3000)
   }
 
+  // Show order listing page if user navigated to it
+  if (showOrderListing && user) {
+    return (
+      <div className="min-h-screen" style={{ backgroundColor: "#3DC5F1" }}>
+        <div className="max-w-[640px] mx-auto bg-gray-50 min-h-screen">
+          <OrderListing
+            orders={mockOrders}
+            language={language}
+            onBack={handleBackFromOrders}
+          />
+        </div>
+      </div>
+    )
+  }
+
   // Show profile page if user navigated to it
   if (showProfilePage && user) {
     return (
@@ -184,6 +218,7 @@ export default function VendingMachineApp() {
             onLanguageToggle={toggleLanguage}
             onBack={handleBackFromProfile}
             onLogout={handleLogout}
+            onViewOrders={handleViewOrders}
           />
         </div>
       </div>
