@@ -1,39 +1,4 @@
-# FreshUp Vending Machine Web UI
-
-A modern, interactive vending machine web application built with Next.js 15, React 19, and TypeScript. This application simulates a smart vending machine experience with authentication, payment processing, item detection, and user management features.
-
-## 🚀 Features
-
-- **User Authentication**: Phone-based login system with user profiles
-- **Payment Processing**: Integrated payment modal with deposit system
-- **Smart Item Detection**: AI-powered item detection and recognition
-- **Multi-language Support**: English and Chinese language support
-- **Real-time Session Management**: Track vending sessions and user interactions
-- **Responsive Design**: Modern UI built with Tailwind CSS and Radix UI components
-- **Theme Support**: Dark/light mode with next-themes
-- **Form Validation**: React Hook Form with Zod schema validation
-
-## 🛠️ Tech Stack
-
-- **Framework**: Next.js 15 (App Router)
-- **Language**: TypeScript
-- **UI Library**: React 19
-- **Styling**: Tailwind CSS with custom animations
-- **UI Components**: Radix UI primitives with shadcn/ui
-- **Form Handling**: React Hook Form with Zod validation
-- **Icons**: Lucide React
-- **Charts**: Recharts for data visualization
-- **Package Manager**: pnpm
-
-## 📦 Key Dependencies
-
-- **UI Components**: Complete Radix UI component library
-- **Form Management**: React Hook Form with @hookform/resolvers
-- **Date Handling**: date-fns and react-day-picker
-- **Carousel**: Embla Carousel React
-- **Notifications**: Sonner toast notifications
-- **Charts**: Recharts for data visualization
-- **Animations**: tailwindcss-animate
+# FreshUp Vending Machine Web UI Storybook 
 
 ## 🚀 Getting Started
 
@@ -90,28 +55,6 @@ freshup-web-ui/
 └── styles/               # Additional stylesheets
 ```
 
-## 🎯 Core Features
-
-### Authentication System
-- Phone number-based login
-- User session management
-- Profile management with order history
-
-### Payment Processing
-- Deposit-based payment system (¥200 deposit)
-- Multiple payment method support
-- Transaction tracking
-
-### Smart Vending Experience
-- Door unlock simulation
-- Item detection and recognition
-- Real-time session tracking
-- Automatic checkout calculation
-
-### Multi-language Support
-- English and Chinese interfaces
-- Dynamic language switching
-- Localized content and messaging
 
 ## 🧪 Development
 
@@ -135,30 +78,3 @@ pnpm lint
 
 Create a `.env.local` file in the root directory for any environment-specific configurations.
 
-## 🎨 UI/UX Features
-
-- **Modern Design**: Clean, intuitive interface with smooth animations
-- **Responsive Layout**: Works seamlessly on desktop and mobile devices
-- **Accessibility**: Built with Radix UI primitives for excellent accessibility
-- **Theme Support**: Automatic dark/light mode detection
-- **Loading States**: Smooth loading animations and transitions
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-For support, please open an issue in the GitHub repository or contact the development team.
-
----
-
-Built with ❤️ using Next.js, React, and TypeScript 
