@@ -7,6 +7,7 @@ import { ProductsGrid } from "@/components/products-grid"
 import { HeroCarousel } from "@/components/hero-carousel"
 import { AuthModal } from "@/components/auth-modal"
 import { OrderListing } from "@/components/order-listing"
+import { OrderDetails } from "@/components/order-details"
 import { ProfilePage } from "@/components/profile-page"
 import { mockProducts, mockOrders } from "@/lib/mock-data"
 import type { CartItem, User, Order } from "@/lib/types"
@@ -32,6 +33,8 @@ export default function VendingMachineApp() {
   const [showQrScan, setShowQrScan] = useState(true)
   const [fridgeScanned, setFridgeScanned] = useState(false)
   const [showOrderListing, setShowOrderListing] = useState(false)
+  const [showOrderDetails, setShowOrderDetails] = useState(false)
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
 
   const DEPOSIT_AMOUNT = 200
 
@@ -77,6 +80,21 @@ export default function VendingMachineApp() {
 
   const handleBackFromOrders = () => {
     setShowOrderListing(false)
+  }
+
+  const handleOrderClick = (order: Order) => {
+    setSelectedOrder(order)
+    setShowOrderDetails(true)
+  }
+
+  const handleBackFromOrderDetails = () => {
+    setShowOrderDetails(false)
+    setSelectedOrder(null)
+  }
+
+  const handlePayOutstanding = () => {
+    // Handle payment logic here
+    console.log("Pay outstanding amount for order:", selectedOrder?.orderNumber)
   }
 
   const handleUnlockDoor = () => {
@@ -192,6 +210,22 @@ export default function VendingMachineApp() {
     }, 3000)
   }
 
+  // Show order details page if user navigated to it
+  if (showOrderDetails && selectedOrder && user) {
+    return (
+      <div className="min-h-screen" style={{ backgroundColor: "#3DC5F1" }}>
+        <div className="max-w-[640px] mx-auto bg-gray-50 min-h-screen">
+          <OrderDetails
+            order={selectedOrder}
+            language={language}
+            onBack={handleBackFromOrderDetails}
+            onPayOutstanding={handlePayOutstanding}
+          />
+        </div>
+      </div>
+    )
+  }
+
   // Show order listing page if user navigated to it
   if (showOrderListing && user) {
     return (
@@ -201,6 +235,7 @@ export default function VendingMachineApp() {
             orders={mockOrders}
             language={language}
             onBack={handleBackFromOrders}
+            onOrderClick={handleOrderClick}
           />
         </div>
       </div>

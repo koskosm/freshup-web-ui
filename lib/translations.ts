@@ -95,6 +95,18 @@ export const translations = {
     // Error State
     errorOccurred: "An error occurred",
     errorDescription: "Something went wrong. Please try again or contact support if the problem persists.",
+
+    // Order Details
+    orderInfo: "Order Info",
+    payOutstandingAmount: "Pay Outstanding Amount",
+    calculatingTotalAmount: "Calculating total amount...",
+    checkoutInProcess: "Checkout in process",
+    calculatingTotalDesc: "It may take a while, you can check back the calculated amount later on.",
+
+    // Order Listing
+    myOrders: "My Orders",
+    noOrdersFound: "No orders found",
+    deposited: "Deposited",
   },
   zh: {
     // Header
@@ -177,6 +189,18 @@ export const translations = {
     logout: "登出",
     termsConditions: "條款及細則",
     privacyPolicy: "私隱政策",
+
+    // Order Details
+    orderInfo: "訂單資料",
+    payOutstandingAmount: "支付未付金額",
+    calculatingTotalAmount: "計算總金額中...",
+    checkoutInProcess: "結帳處理中",
+    calculatingTotalDesc: "可能需要一些時間，您可以稍後查看計算出的金額。",
+
+    // Order Listing
+    myOrders: "我的訂單",
+    noOrdersFound: "沒有找到訂單",
+    deposited: "已存入",
 
     // Info Banner
     smartVendingExperience: "智能售貨體驗",

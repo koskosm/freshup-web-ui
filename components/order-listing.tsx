@@ -9,9 +9,10 @@ interface OrderListingProps {
   orders: Order[]
   language: "en" | "zh"
   onBack: () => void
+  onOrderClick: (order: Order) => void
 }
 
-export function OrderListing({ orders, language, onBack }: OrderListingProps) {
+export function OrderListing({ orders, language, onBack, onOrderClick }: OrderListingProps) {
   const getStatusColor = (status: Order["status"]) => {
     switch (status) {
       case "paid":
@@ -34,17 +35,17 @@ export function OrderListing({ orders, language, onBack }: OrderListingProps) {
   const getStatusText = (status: Order["status"]) => {
     switch (status) {
       case "paid":
-        return "Paid"
+        return language === "zh" ? "已付款" : "Paid"
       case "checking_out":
-        return "Checking out"
+        return language === "zh" ? "結帳中" : "Checking out"
       case "outstanding":
-        return "Outstanding"
+        return language === "zh" ? "未付款" : "Outstanding"
       case "completed":
-        return "Completed"
+        return language === "zh" ? "已完成" : "Completed"
       case "processing":
-        return "Processing"
+        return language === "zh" ? "處理中" : "Processing"
       case "pending":
-        return "Pending"
+        return language === "zh" ? "待處理" : "Pending"
       default:
         return status
     }
@@ -52,7 +53,7 @@ export function OrderListing({ orders, language, onBack }: OrderListingProps) {
 
   const formatAmount = (order: Order) => {
     if (order.depositAmount) {
-      return `Deposited $${order.depositAmount.toFixed(2)}`
+      return `${t("deposited", language)} $${order.depositAmount.toFixed(2)}`
     }
     return `$${order.total.toFixed(2)}`
   }
@@ -78,7 +79,7 @@ export function OrderListing({ orders, language, onBack }: OrderListingProps) {
           >
             <ChevronLeft className="w-6 h-6 text-gray-600" />
           </button>
-          <h1 className="text-lg font-bold">My Orders</h1>
+          <h1 className="text-lg font-bold">{t("myOrders", language)}</h1>
         </div>
       </div>
 
@@ -87,7 +88,8 @@ export function OrderListing({ orders, language, onBack }: OrderListingProps) {
         {orders.map((order) => (
           <div
             key={order.id}
-            className="bg-white rounded-lg p-4 shadow-sm border border-gray-100"
+            className="bg-white rounded-lg p-4 shadow-sm border border-gray-100 cursor-pointer hover:shadow-md transition-shadow"
+            onClick={() => onOrderClick(order)}
           >
             <div className="flex justify-between items-start">
               <div className="flex-1">
@@ -142,7 +144,7 @@ export function OrderListing({ orders, language, onBack }: OrderListingProps) {
                 />
               </svg>
             </div>
-            <p className="text-gray-500 text-sm">No orders found</p>
+            <p className="text-gray-500 text-sm">{t("noOrdersFound", language)}</p>
           </div>
         )}
       </div>
