@@ -22,7 +22,7 @@ export const Default: Story = {
   parameters: {
     docs: {
       description: {
-        story: "Shows the default state of the vending machine app with no user logged in. Users can click 'Sign up / Login' to start the authentication flow.",
+        story: "Shows the default state of the vending machine app with QR scan state and empty product grid. This is the initial state for all users.",
       },
     },
   },
@@ -38,21 +38,21 @@ export const LoggedInWithQrScan: Story = {
   },
 };
 
-export const AfterFridgeScanned: Story = {
+export const AuthModal: Story = {
   parameters: {
     docs: {
       description: {
-        story: "To see this state: 1) Follow steps for LoggedInWithQrScan, 2) Click the QR code icon in the bottom action sheet, 3) The app will show full product list. This demonstrates after a user has scanned a fridge.",
+        story: "To see this state: 1) Click the QR code icon in the bottom action sheet, 2) Since user is not logged in, the authentication modal will appear. This demonstrates the flow after scanning QR when not logged in.",
       },
     },
   },
 };
 
-export const PaymentFlow: Story = {
+export const PaymentSelection: Story = {
   parameters: {
     docs: {
       description: {
-        story: "To see this state: 1) Follow steps for AfterFridgeScanned, 2) The payment selection will appear automatically. This demonstrates the payment flow after scanning a fridge.",
+        story: "To see this state: 1) Follow steps for LoggedInWithQrScan to login, 2) Click the QR code icon, 3) The payment selection will appear. This demonstrates the flow after scanning QR when logged in.",
       },
     },
   },
