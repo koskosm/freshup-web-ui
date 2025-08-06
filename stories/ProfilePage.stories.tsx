@@ -19,7 +19,7 @@ const meta: Meta<typeof ProfilePage> = {
     },
     language: {
       control: { type: "select" },
-      options: ["en", "zh"],
+      options: ["en"],
     },
     onLanguageToggle: {
       action: "language-toggled",
@@ -48,17 +48,7 @@ export const Default: Story = {
   },
 };
 
-export const Chinese: Story = {
-  args: {
-    user: {
-      id: "1",
-      name: "Frank",
-      phone: "+852 6356 3334",
-      isAuthenticated: true,
-    },
-    language: "zh",
-  },
-};
+
 
 export const NoUser: Story = {
   args: {

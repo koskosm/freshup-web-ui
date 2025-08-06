@@ -14,10 +14,11 @@ import type { CartItem, User, Order } from "@/lib/types"
 import { BottomActionSheet } from "@/components/bottom-action-sheet"
 import type { VendingSession } from "@/lib/types"
 import { t, type Language } from "@/lib/translations"
+import { TranslationProvider, useTranslationContext } from "@/components/translation-provider"
 
-export default function VendingMachineApp() {
+function VendingMachineAppContent() {
+  const { language, setLanguage, isLoading, error } = useTranslationContext()
   const [user, setUser] = useState<User | null>(null)
-  const [language, setLanguage] = useState<Language>("en")
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [showProfilePage, setShowProfilePage] = useState(false)
   const [unlockStage, setUnlockStage] = useState<"unlocking" | "calculating" | "complete">("unlocking")
@@ -210,6 +211,36 @@ export default function VendingMachineApp() {
     }, 3000)
   }
 
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#3DC5F1" }}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+                  <p className="text-white">Loading...</p>
+        </div>
+      </div>
+    )
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#3DC5F1" }}>
+        <div className="text-center">
+          <p className="text-white mb-4">Failed to load translations</p>
+          <p className="text-white text-sm">{error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="mt-4 px-4 py-2 bg-white text-blue-500 rounded-lg"
+          >
+            Retry
+          </button>
+        </div>
+      </div>
+    )
+  }
+
   // Show order details page if user navigated to it
   if (showOrderDetails && selectedOrder && user) {
     return (
@@ -354,5 +385,13 @@ export default function VendingMachineApp() {
 
       </div>
     </div>
+  )
+}
+
+export default function VendingMachineApp() {
+  return (
+    <TranslationProvider>
+      <VendingMachineAppContent />
+    </TranslationProvider>
   )
 }

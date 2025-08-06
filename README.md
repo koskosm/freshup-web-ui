@@ -72,9 +72,21 @@ pnpm start
 
 # Run linting
 pnpm lint
+
+# Validate translations
+pnpm validate-translations
 ```
 
 ### Environment Variables
 
 Create a `.env.local` file in the root directory for any environment-specific configurations.
+
+### Internationalization
+
+This project supports multiple languages through a JSON-based translation system. See [TRANSLATIONS.md](./TRANSLATIONS.md) for detailed documentation on:
+
+- Adding new translations
+- Using translation functions
+- Parameter interpolation
+- Validation and error handling
 

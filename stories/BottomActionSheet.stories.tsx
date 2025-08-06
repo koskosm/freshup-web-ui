@@ -19,7 +19,7 @@ const meta: Meta<typeof BottomActionSheet> = {
     },
     language: {
       control: { type: "select" },
-      options: ["en", "zh"],
+      options: ["en"],
     },
     onUnlockDoor: {
       action: "unlock-door",
@@ -82,20 +82,7 @@ export const LoggedOut: Story = {
   },
 };
 
-export const LoggedOutChinese: Story = {
-  args: {
-    user: null,
-    language: "zh",
-    disabled: false,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Shows the bottom action sheet in Chinese when user is not logged in.",
-      },
-    },
-  },
-};
+
 
 export const LoggedIn: Story = {
   args: {
@@ -117,25 +104,7 @@ export const LoggedIn: Story = {
   },
 };
 
-export const LoggedInChinese: Story = {
-  args: {
-    user: {
-      id: "1",
-      name: "Frank",
-      phone: "+852 6356 3334",
-      isAuthenticated: true,
-    },
-    language: "zh",
-    disabled: false,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Shows the bottom action sheet in Chinese when user is logged in.",
-      },
-    },
-  },
-};
+
 
 export const Disabled: Story = {
   args: {
@@ -177,25 +146,7 @@ export const PaymentSelection: Story = {
   },
 };
 
-export const PaymentSelectionChinese: Story = {
-  args: {
-    user: {
-      id: "1",
-      name: "Frank",
-      phone: "+852 6356 3334",
-      isAuthenticated: true,
-    },
-    language: "zh",
-    showPaymentSelection: true,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Shows the payment method selection screen in Chinese with multiple payment options.",
-      },
-    },
-  },
-};
+
 
 export const PaymentProcessing: Story = {
   args: {
@@ -218,26 +169,6 @@ export const PaymentProcessing: Story = {
   },
 };
 
-export const PaymentProcessingChinese: Story = {
-  args: {
-    user: {
-      id: "1",
-      name: "Frank",
-      phone: "+852 6356 3334",
-      isAuthenticated: true,
-    },
-    language: "zh",
-    showPaymentProcessing: true,
-    amount: 200,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Shows the payment processing screen in Chinese with loading animation.",
-      },
-    },
-  },
-};
 
 export const UnlockProcessing: Story = {
   args: {
@@ -260,26 +191,6 @@ export const UnlockProcessing: Story = {
   },
 };
 
-export const UnlockProcessingChinese: Story = {
-  args: {
-    user: {
-      id: "1",
-      name: "Frank",
-      phone: "+852 6356 3334",
-      isAuthenticated: true,
-    },
-    language: "zh",
-    showUnlockProcessing: true,
-    unlockStage: "unlocking",
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Shows the unlock processing screen in Chinese with door unlocking animation.",
-      },
-    },
-  },
-};
 
 export const UnlockCalculating: Story = {
   args: {
@@ -302,26 +213,6 @@ export const UnlockCalculating: Story = {
   },
 };
 
-export const UnlockCalculatingChinese: Story = {
-  args: {
-    user: {
-      id: "1",
-      name: "Frank",
-      phone: "+852 6356 3334",
-      isAuthenticated: true,
-    },
-    language: "zh",
-    showUnlockProcessing: true,
-    unlockStage: "calculating",
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Shows the unlock processing screen in Chinese during payment calculation.",
-      },
-    },
-  },
-};
 
 export const UnlockComplete: Story = {
   args: {
@@ -344,26 +235,6 @@ export const UnlockComplete: Story = {
   },
 };
 
-export const UnlockCompleteChinese: Story = {
-  args: {
-    user: {
-      id: "1",
-      name: "Frank",
-      phone: "+852 6356 3334",
-      isAuthenticated: true,
-    },
-    language: "zh",
-    showUnlockProcessing: true,
-    unlockStage: "complete",
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Shows the unlock processing screen in Chinese when payment is complete.",
-      },
-    },
-  },
-};
 
 export const Checkout: Story = {
   args: {
@@ -396,36 +267,6 @@ export const Checkout: Story = {
   },
 };
 
-export const CheckoutChinese: Story = {
-  args: {
-    user: {
-      id: "1",
-      name: "Frank",
-      phone: "+852 6356 3334",
-      isAuthenticated: true,
-    },
-    language: "zh",
-    showCheckout: true,
-    amount: 200,
-    order: {
-      id: "1",
-      items: [
-        { id: "1", name: "Coca Cola", price: 8.5, quantity: 2 },
-        { id: "2", name: "Pepsi", price: 8.0, quantity: 1 },
-      ],
-      total: 25.0,
-      status: "completed",
-      orderNumber: "1249001",
-    },
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Shows the checkout screen in Chinese with purchased items and payment summary.",
-      },
-    },
-  },
-};
 
 export const QrScan: Story = {
   args: {
@@ -447,25 +288,6 @@ export const QrScan: Story = {
   },
 };
 
-export const QrScanChinese: Story = {
-  args: {
-    user: {
-      id: "1",
-      name: "Frank",
-      phone: "+852 6356 3334",
-      isAuthenticated: true,
-    },
-    language: "zh",
-    showQrScan: true,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Shows the QR scan screen in Chinese for logged-in users to scan fridge QR codes.",
-      },
-    },
-  },
-};
 
 export const Error: Story = {
   args: {
@@ -487,22 +309,3 @@ export const Error: Story = {
   },
 };
 
-export const ErrorChinese: Story = {
-  args: {
-    user: {
-      id: "1",
-      name: "Frank",
-      phone: "+852 6356 3334",
-      isAuthenticated: true,
-    },
-    language: "zh",
-    showError: true,
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Shows the error state in Chinese with red circle and X icon when an error occurs.",
-      },
-    },
-  },
-}; 

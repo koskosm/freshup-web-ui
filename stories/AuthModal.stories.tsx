@@ -14,7 +14,7 @@ const meta: Meta<typeof AuthModal> = {
     },
     language: {
       control: { type: "select" },
-      options: ["en", "zh"],
+      options: ["en"],
     },
     onClose: {
       action: "closed",
@@ -35,12 +35,7 @@ export const Default: Story = {
   },
 };
 
-export const Chinese: Story = {
-  args: {
-    isOpen: true,
-    language: "zh",
-  },
-};
+
 
 export const Closed: Story = {
   args: {

@@ -20,7 +20,7 @@ const meta: Meta<typeof OrderDetails> = {
     },
     language: {
       control: { type: "select" },
-      options: ["en", "zh"],
+      options: ["en"],
     },
     onBack: {
       action: "back",
@@ -76,16 +76,4 @@ export const CheckingOutOrder: Story = {
   },
 };
 
-export const Chinese: Story = {
-  args: {
-    order: mockOrders[0],
-    language: "zh",
-  },
-  parameters: {
-    docs: {
-      description: {
-        story: "Shows the order details page in Chinese language.",
-      },
-    },
-  },
-}; 
+ 
