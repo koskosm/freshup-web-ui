@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Lock, Sparkles, CheckCircle, QrCode, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { t } from "@/lib/translations";
+import { useI18n } from "@/hooks/use-i18n";
 import Image from "next/image";
 
 interface BottomActionSheetProps {
@@ -46,6 +46,7 @@ export function BottomActionSheet({
   amount = 200,
   order = null,
 }: BottomActionSheetProps) {
+  const { t } = useI18n();
   const [selectedMethod, setSelectedMethod] = useState<string | null>(null);
   const [showGateway, setShowGateway] = useState(false);
 
@@ -75,8 +76,8 @@ export function BottomActionSheet({
           {/* Main Content */}
           <div className="flex flex-col items-center justify-center space-y-8 px-4 py-8">
             <div className="text-center space-y-4">
-              <h1 className="text-3xl font-bold text-gray-900">{t("todoPaymentGateway", language)}</h1>
-              <p className="text-gray-600">{t("paymentIntegrationSoon", language)}</p>
+              <h1 className="text-3xl font-bold text-gray-900">{t("todoPaymentGateway")}</h1>
+              <p className="text-gray-600">{t("paymentIntegrationSoon")}</p>
               <div className="w-16 h-1 bg-gray-300 rounded mx-auto animate-pulse"></div>
             </div>
           </div>
@@ -129,9 +130,9 @@ export function BottomActionSheet({
           
           <div className="flex flex-col items-center justify-center space-y-3 pt-8">
             <div className="text-center">
-              <h2 className="text-lg font-bold">{t("processingPayment", language)}</h2>
+              <h2 className="text-lg font-bold">{t("processingPayment")}</h2>
               <p className="text-sm text-muted-foreground max-w-md">
-                {t("processingDeposit", language, { amount: amount.toFixed(2) })}
+                {t("processingDeposit", { amount: amount.toFixed(2) })}
               </p>
             </div>
           </div>
@@ -147,22 +148,22 @@ export function BottomActionSheet({
         case "unlocking":
           return {
             icon: <Lock className="w-6 h-6" style={{ color: "#B8860B" }} />,
-            title: t("unlockingDoor", language),
-            subtitle: t("smartSensors", language),
+            title: t("unlockingDoor"),
+            subtitle: t("smartSensors"),
             showPulse: true,
           };
         case "calculating":
           return {
             icon: <Sparkles className="w-6 h-6" style={{ color: "#B8860B" }} />,
-            title: t("processingPaymentCalc", language),
-            subtitle: t("calculatingTotal", language),
+            title: t("processingPaymentCalc"),
+            subtitle: t("calculatingTotal"),
             showPulse: true,
           };
         case "complete":
           return {
             icon: <CheckCircle className="w-6 h-6" style={{ color: "#B8860B" }} />,
-            title: t("paymentComplete", language),
-            subtitle: t("thankYou", language),
+            title: t("paymentComplete"),
+            subtitle: t("thankYou"),
             showPulse: false,
           };
         default:
@@ -221,7 +222,7 @@ export function BottomActionSheet({
               <h2 className="text-lg font-bold">{content.title}</h2>
               <p className="text-sm text-muted-foreground max-w-md whitespace-pre-line">{content.subtitle}</p>
               {unlockStage === "calculating" && (
-                <p className="text-cyan-500 text-sm mt-2">{t("contactSupport", language)}</p>
+                <p className="text-cyan-500 text-sm mt-2">{t("contactSupport")}</p>
               )}
             </div>
           </div>
@@ -251,14 +252,14 @@ export function BottomActionSheet({
           
           <div className="flex flex-col items-center justify-center space-y-3 pt-8">
             <div className="text-center">
-              <h2 className="text-lg font-bold">{t("checkoutComplete", language)}</h2>
-              <p className="text-sm text-muted-foreground max-w-md">{t("thankYouServices", language)}</p>
+              <h2 className="text-lg font-bold">{t("checkoutComplete")}</h2>
+              <p className="text-sm text-muted-foreground max-w-md">{t("thankYouServices")}</p>
             </div>
 
             <div className="w-full max-w-xs space-y-4">
               {/* Items Purchased */}
               <div className="bg-gray-50 rounded-lg p-4 space-y-2">
-                <h4 className="font-semibold text-sm">{t("itemsPurchased", language)}</h4>
+                <h4 className="font-semibold text-sm">{t("itemsPurchased")}</h4>
                 {order.items.map((item: any) => (
                   <div key={item.id} className="flex justify-between items-center text-sm">
                     <span className="text-muted-foreground">
@@ -272,15 +273,15 @@ export function BottomActionSheet({
               {/* Payment Summary */}
               <div className="space-y-2 border-t pt-4">
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-muted-foreground">{t("securityDeposit", language)}</span>
+                  <span className="text-muted-foreground">{t("securityDeposit")}</span>
                   <span>${amount.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-center text-sm">
-                  <span className="text-muted-foreground">{t("itemsTotal", language)}</span>
+                  <span className="text-muted-foreground">{t("itemsTotal")}</span>
                   <span>-${order.total.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-center text-lg font-bold border-t pt-2">
-                  <span>{refundAmount > 0 ? t("refundAmount", language) : t("additionalCharge", language)}</span>
+                  <span>{refundAmount > 0 ? t("refundAmount") : t("additionalCharge")}</span>
                   <span className={refundAmount > 0 ? "text-green-600" : "text-red-600"}>
                     ${Math.abs(refundAmount).toFixed(2)}
                   </span>
@@ -289,11 +290,11 @@ export function BottomActionSheet({
 
               {/* Order Info */}
               <div className="text-center text-sm text-muted-foreground">
-                {t("orderNo", language, { orderNumber: order.orderNumber })}
+                {t("orderNo", { orderNumber: order.orderNumber })}
                 <br />
                 {refundAmount > 0
-                  ? t("refundProcessed", language)
-                  : t("additionalCharged", language)}
+                  ? t("refundProcessed")
+                  : t("additionalCharged")}
               </div>
 
               {/* Done Button */}
@@ -304,11 +305,11 @@ export function BottomActionSheet({
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#E6A82D")}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#FCBB34")}
               >
-                {t("done", language)}
+                {t("done")}
               </Button>
 
               {/* Contact Info */}
-              <p className="text-center text-cyan-500 text-sm">{t("contactSupport", language)}</p>
+              <p className="text-center text-cyan-500 text-sm">{t("contactSupport")}</p>
             </div>
           </div>
         </div>
@@ -367,9 +368,9 @@ export function BottomActionSheet({
           
           <div className="flex flex-col items-center justify-center space-y-3 pt-8">
             <div className="text-center">
-              <h2 className="text-lg font-bold">{t("scanQrTitle", language)}</h2>
+              <h2 className="text-lg font-bold">{t("scanQrTitle")}</h2>
               <p className="text-sm text-muted-foreground max-w-md">
-                {t("scanQrDescription", language)}
+                {t("scanQrDescription")}
               </p>
             </div>
           </div>
@@ -397,9 +398,9 @@ export function BottomActionSheet({
           
           <div className="flex flex-col items-center justify-center space-y-3 pt-8">
             <div className="text-center">
-              <h2 className="text-lg font-bold text-red-600">{t("errorOccurred", language)}</h2>
+              <h2 className="text-lg font-bold text-red-600">{t("errorOccurred")}</h2>
               <p className="text-sm text-muted-foreground max-w-md">
-                {t("errorDescription", language)}
+                {t("errorDescription")}
               </p>
             </div>
             
@@ -411,7 +412,7 @@ export function BottomActionSheet({
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#DC2626")}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#EF4444")}
             >
-              {t("cancel", language)}
+              {t("cancel")}
             </Button>
           </div>
         </div>
@@ -437,8 +438,8 @@ export function BottomActionSheet({
           <div className="flex flex-col items-center space-y-6 py-4 pt-8">
             {/* Title and Description */}
             <div className="text-center space-y-3">
-              <h2 className="text-2xl font-bold">{t("choosePaymentMethod", language)}</h2>
-              <p className="text-gray-600 text-sm leading-relaxed">{t("depositHold", language)}</p>
+              <h2 className="text-2xl font-bold">{t("choosePaymentMethod")}</h2>
+              <p className="text-gray-600 text-sm leading-relaxed">{t("depositHold")}</p>
             </div>
 
             {/* Payment Methods */}
@@ -491,7 +492,7 @@ export function BottomActionSheet({
 
             {/* Cancel Link */}
             <button onClick={onClose} className="text-gray-500 text-sm underline">
-              {t("cancel", language)}
+              {t("cancel")}
             </button>
           </div>
         </div>
@@ -540,10 +541,10 @@ export function BottomActionSheet({
         <div className="flex flex-col items-center justify-center space-y-3 pt-8">
           <div className="text-center">
             <h2 className="text-lg font-bold">
-              {user ? t("payDepositUnlock", language) : t("registerLoginUnlock", language)}
+              {user ? t("payDepositUnlock") : t("registerLoginUnlock")}
             </h2>
             <p className="text-sm text-muted-foreground max-w-md">
-              {user ? t("securityDepositRequired", language) : t("signupLoginStart", language)}
+              {user ? t("securityDepositRequired") : t("signupLoginStart")}
             </p>
           </div>
           {user ? (
@@ -556,7 +557,7 @@ export function BottomActionSheet({
               disabled={disabled}
             >
               <Lock className="w-4 h-4 mr-2" />
-              {t("payUnlock", language)}
+              {t("payUnlock")}
             </Button>
           ) : (
             <Button
@@ -566,7 +567,7 @@ export function BottomActionSheet({
               onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#E6A82D")}
               onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#FCBB34")}
             >
-              {t("signupLogin", language)}
+              {t("signupLogin")}
             </Button>
           )}
         </div>

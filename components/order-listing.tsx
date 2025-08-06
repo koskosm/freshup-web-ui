@@ -3,7 +3,7 @@
 import { ChevronLeft } from "lucide-react"
 import Image from "next/image"
 import type { Order } from "@/lib/types"
-import { t } from "@/lib/translations"
+import { useI18n } from "@/hooks/use-i18n"
 
 interface OrderListingProps {
   orders: Order[]
@@ -13,6 +13,7 @@ interface OrderListingProps {
 }
 
 export function OrderListing({ orders, language, onBack, onOrderClick }: OrderListingProps) {
+  const { t } = useI18n();
   const getStatusColor = (status: Order["status"]) => {
     switch (status) {
       case "paid":
@@ -35,17 +36,17 @@ export function OrderListing({ orders, language, onBack, onOrderClick }: OrderLi
   const getStatusText = (status: Order["status"]) => {
     switch (status) {
       case "paid":
-        return language === "zh" ? "已付款" : "Paid"
+        return t("statusPaid")
       case "checking_out":
-        return language === "zh" ? "結帳中" : "Checking out"
+        return t("statusCheckingOut")
       case "outstanding":
-        return language === "zh" ? "未付款" : "Outstanding"
+        return t("statusOutstanding")
       case "completed":
-        return language === "zh" ? "已完成" : "Completed"
+        return t("statusCompleted")
       case "processing":
-        return language === "zh" ? "處理中" : "Processing"
+        return t("statusProcessing")
       case "pending":
-        return language === "zh" ? "待處理" : "Pending"
+        return t("statusPending")
       default:
         return status
     }
@@ -53,7 +54,7 @@ export function OrderListing({ orders, language, onBack, onOrderClick }: OrderLi
 
   const formatAmount = (order: Order) => {
     if (order.depositAmount) {
-      return `${t("deposited", language)} $${order.depositAmount.toFixed(2)}`
+      return `${t("deposited")} $${order.depositAmount.toFixed(2)}`
     }
     return `$${order.total.toFixed(2)}`
   }
@@ -64,9 +65,9 @@ export function OrderListing({ orders, language, onBack, onOrderClick }: OrderLi
       <header className="bg-white shadow-sm p-4">
         <div className="flex items-center justify-between">
           <Image src="/images/freshup-logo.png" alt="FreshUp" width={120} height={40} className="h-8 w-auto" />
-          <button onClick={() => {}} className="text-gray-600 text-sm font-medium">
-            {t("language", language)}
-          </button>
+                      <button onClick={() => {}} className="text-gray-600 text-sm font-medium">
+              {t("language")}
+            </button>
         </div>
       </header>
 
@@ -79,7 +80,7 @@ export function OrderListing({ orders, language, onBack, onOrderClick }: OrderLi
           >
             <ChevronLeft className="w-6 h-6 text-gray-600" />
           </button>
-          <h1 className="text-lg font-bold">{t("myOrders", language)}</h1>
+          <h1 className="text-lg font-bold">{t("myOrders")}</h1>
         </div>
       </div>
 
@@ -144,7 +145,7 @@ export function OrderListing({ orders, language, onBack, onOrderClick }: OrderLi
                 />
               </svg>
             </div>
-            <p className="text-gray-500 text-sm">{t("noOrdersFound", language)}</p>
+                         <p className="text-gray-500 text-sm">{t("noOrdersFound")}</p>
           </div>
         )}
       </div>

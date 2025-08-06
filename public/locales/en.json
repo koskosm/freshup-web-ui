@@ -75,5 +75,11 @@
   "calculatingTotalDesc": "It may take a while, you can check back the calculated amount later on.",
   "myOrders": "My Orders",
   "noOrdersFound": "No orders found",
-  "deposited": "Deposited"
+  "deposited": "Deposited",
+  "item_one": "{{count}} item",
+  "item_other": "{{count}} items",
+  "order_one": "{{count}} order",
+  "order_other": "{{count}} orders",
+  "test_one": "{{count}} test",
+  "test_other": "{{count}} tests"
 } 

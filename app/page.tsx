@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ProductsGrid } from "@/components/products-grid"
@@ -13,11 +13,14 @@ import { mockProducts, mockOrders } from "@/lib/mock-data"
 import type { CartItem, User, Order } from "@/lib/types"
 import { BottomActionSheet } from "@/components/bottom-action-sheet"
 import type { VendingSession } from "@/lib/types"
-import { t, type Language } from "@/lib/translations"
+import type { Language } from "@/lib/translations"
 import { TranslationProvider, useTranslationContext } from "@/components/translation-provider"
+import { useI18n } from "@/hooks/use-i18n"
+import "@/lib/i18n" // Initialize i18next
 
 function VendingMachineAppContent() {
   const { language, setLanguage, isLoading, error } = useTranslationContext()
+  const { t } = useI18n()
   const [user, setUser] = useState<User | null>(null)
   const [showAuthModal, setShowAuthModal] = useState(false)
   const [showProfilePage, setShowProfilePage] = useState(false)
@@ -211,35 +214,7 @@ function VendingMachineAppContent() {
     }, 3000)
   }
 
-  // Show loading state
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#3DC5F1" }}>
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-                  <p className="text-white">Loading...</p>
-        </div>
-      </div>
-    )
-  }
-
-  // Show error state
-  if (error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: "#3DC5F1" }}>
-        <div className="text-center">
-          <p className="text-white mb-4">Failed to load translations</p>
-          <p className="text-white text-sm">{error}</p>
-          <button 
-            onClick={() => window.location.reload()} 
-            className="mt-4 px-4 py-2 bg-white text-blue-500 rounded-lg"
-          >
-            Retry
-          </button>
-        </div>
-      </div>
-    )
-  }
+  
 
   // Show order details page if user navigated to it
   if (showOrderDetails && selectedOrder && user) {
@@ -299,7 +274,7 @@ function VendingMachineAppContent() {
           <div className="flex items-center justify-between">
             <Image src="/images/freshup-logo.png" alt="FreshUp" width={120} height={40} className="h-8 w-auto" />
             <button onClick={toggleLanguage} className="text-gray-600 text-sm font-medium">
-              {t("language", language)}
+              {t("language")}
             </button>
           </div>
         </header>
@@ -308,18 +283,18 @@ function VendingMachineAppContent() {
         <main className="p-4 pb-48">
           {/* Welcome Section */}
           <div className="flex items-center justify-between mb-6">
-            <h1 className="text-2xl font-bold">
-              {user ? t("welcomeUser", language, { name: user.name }) : t("welcome", language)}
-            </h1>
+                          <h1 className="text-2xl font-bold">
+                {user ? t("welcomeUser", { name: user.name }) : t("welcome")}
+              </h1>
             {user ? (
-              <Button variant="outline" onClick={handleProfileNavigation}>
-                {t("profile", language)}
-              </Button>
-            ) : (
-              <Button variant="outline" onClick={() => setShowAuthModal(true)}>
-                {t("signupLogin", language)}
-              </Button>
-            )}
+                              <Button variant="outline" onClick={handleProfileNavigation}>
+                  {t("profile")}
+                </Button>
+              ) : (
+                <Button variant="outline" onClick={() => setShowAuthModal(true)}>
+                  {t("signupLogin")}
+                </Button>
+              )}
           </div>
 
           {/* Hero Carousel */}

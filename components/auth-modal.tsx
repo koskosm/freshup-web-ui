@@ -7,16 +7,17 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { User } from "lucide-react"
 import Image from "next/image"
-import { t, type Language } from "@/lib/translations"
+import { useI18n } from "@/hooks/use-i18n"
 
 interface AuthModalProps {
   isOpen: boolean
-  language: Language
+  language: "en" | "zh"
   onClose: () => void
   onLogin: (phone: string) => void
 }
 
 export function AuthModal({ isOpen, language, onClose, onLogin }: AuthModalProps) {
+  const { t } = useI18n();
   const [phone, setPhone] = useState("")
   const [showVerification, setShowVerification] = useState(false)
   const [verificationCode, setVerificationCode] = useState(["", "", "", "", "", ""])
@@ -68,14 +69,14 @@ export function AuthModal({ isOpen, language, onClose, onLogin }: AuthModalProps
       <Dialog open={isOpen} onOpenChange={onClose}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle className="text-center text-2xl font-bold">{t("verificationCode", language)}</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-6">
-            <p className="text-center text-muted-foreground">
-              {t("verificationSent", language)}
-              <br />
-              {phone}
-            </p>
+                          <DialogTitle className="text-center text-2xl font-bold">{t("verificationCode")}</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-6">
+              <p className="text-center text-muted-foreground">
+                {t("verificationSent")}
+                <br />
+                {phone}
+              </p>
 
             <div className="flex justify-center gap-2">
               {verificationCode.map((digit, index) => (
@@ -91,15 +92,15 @@ export function AuthModal({ isOpen, language, onClose, onLogin }: AuthModalProps
               ))}
             </div>
 
-            <p className="text-center text-sm text-muted-foreground">{t("resendCode", language)}</p>
+                          <p className="text-center text-sm text-muted-foreground">{t("resendCode")}</p>
 
-            <Button
-              onClick={handleVerificationSubmit}
-              className="w-full"
-              disabled={verificationCode.join("").length !== 6}
-            >
-              {t("verify", language)}
-            </Button>
+              <Button
+                onClick={handleVerificationSubmit}
+                className="w-full"
+                disabled={verificationCode.join("").length !== 6}
+              >
+                {t("verify")}
+              </Button>
           </div>
         </DialogContent>
       </Dialog>
@@ -113,13 +114,13 @@ export function AuthModal({ isOpen, language, onClose, onLogin }: AuthModalProps
           <div className="flex justify-center mb-4">
             <Image src="/images/freshup-logo.png" alt="FreshUp" width={120} height={40} className="h-8 w-auto" />
           </div>
-          <DialogTitle className="text-center text-2xl font-bold">{t("membership", language)}</DialogTitle>
-          <p className="text-center text-muted-foreground">{t("signupLoginPurchase", language)}</p>
+                      <DialogTitle className="text-center text-2xl font-bold">{t("membership")}</DialogTitle>
+            <p className="text-center text-muted-foreground">{t("signupLoginPurchase")}</p>
         </DialogHeader>
 
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="phone">{t("phoneNumber", language)}</Label>
+            <Label htmlFor="phone">{t("phoneNumber")}</Label>
             <div className="flex">
               <div className="flex items-center px-3 border border-r-0 rounded-l-md bg-muted">
                 <span className="text-red-500 mr-1">🇭🇰</span>
@@ -128,7 +129,7 @@ export function AuthModal({ isOpen, language, onClose, onLogin }: AuthModalProps
               <Input
                 id="phone"
                 type="tel"
-                placeholder={t("phoneNumber", language)}
+                placeholder={t("phoneNumber")}
                 value={phone}
                 onChange={(e) => setPhone(e.target.value)}
                 className="rounded-l-none"
@@ -143,14 +144,14 @@ export function AuthModal({ isOpen, language, onClose, onLogin }: AuthModalProps
             onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#E6A82D")}
             onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#FCBB34")}
           >
-            {t("next", language)}
+            {t("next")}
           </Button>
 
-          <div className="text-center text-sm text-muted-foreground">{t("or", language)}</div>
+          <div className="text-center text-sm text-muted-foreground">{t("or")}</div>
 
           <Button variant="outline" onClick={handlePasskeyLogin} className="w-full bg-transparent">
             <User className="w-4 h-4 mr-2" />
-            {t("continuePasskey", language)}
+            {t("continuePasskey")}
           </Button>
         </div>
       </DialogContent>

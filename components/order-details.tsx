@@ -4,7 +4,7 @@ import { ChevronLeft } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import type { Order } from "@/lib/types"
-import { t } from "@/lib/translations"
+import { useI18n } from "@/hooks/use-i18n"
 
 interface OrderDetailsProps {
   order: Order
@@ -14,6 +14,7 @@ interface OrderDetailsProps {
 }
 
 export function OrderDetails({ order, language, onBack, onPayOutstanding }: OrderDetailsProps) {
+  const { t } = useI18n();
   const getStatusColor = (status: Order["status"]) => {
     switch (status) {
       case "paid":
@@ -36,17 +37,17 @@ export function OrderDetails({ order, language, onBack, onPayOutstanding }: Orde
   const getStatusText = (status: Order["status"]) => {
     switch (status) {
       case "paid":
-        return language === "zh" ? "已付款" : "Paid"
+        return t("statusPaid")
       case "checking_out":
-        return language === "zh" ? "結帳中" : "Checking out"
+        return t("statusCheckingOut")
       case "outstanding":
-        return language === "zh" ? "未付款" : "Outstanding"
+        return t("statusOutstanding")
       case "completed":
-        return language === "zh" ? "已完成" : "Completed"
+        return t("statusCompleted")
       case "processing":
-        return language === "zh" ? "處理中" : "Processing"
+        return t("statusProcessing")
       case "pending":
-        return language === "zh" ? "待處理" : "Pending"
+        return t("statusPending")
       default:
         return status
     }
@@ -54,7 +55,7 @@ export function OrderDetails({ order, language, onBack, onPayOutstanding }: Orde
 
   const formatAmount = (order: Order) => {
     if (order.depositAmount) {
-      return `${t("deposited", language)} $${order.depositAmount.toFixed(2)}`
+      return `${t("deposited")} $${order.depositAmount.toFixed(2)}`
     }
     return `$${order.total.toFixed(2)}`
   }
@@ -63,20 +64,20 @@ export function OrderDetails({ order, language, onBack, onPayOutstanding }: Orde
     switch (order.status) {
       case "outstanding":
         return (
-          <Button
-            onClick={onPayOutstanding}
-            className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 rounded-lg mb-4"
-          >
-            {t("payOutstandingAmount", language)}
-          </Button>
+                      <Button
+              onClick={onPayOutstanding}
+              className="w-full bg-yellow-500 hover:bg-yellow-600 text-black font-semibold py-3 rounded-lg mb-4"
+            >
+              {t("payOutstandingAmount")}
+            </Button>
         )
       case "checking_out":
         return (
           <div className="bg-gray-50 rounded-lg p-4 mb-4">
-            <p className="font-semibold text-gray-900 mb-2">{t("calculatingTotalAmount", language)}</p>
-            <p className="text-gray-600 mb-2">{t("checkoutInProcess", language)}</p>
+            <p className="font-semibold text-gray-900 mb-2">{t("calculatingTotalAmount")}</p>
+            <p className="text-gray-600 mb-2">{t("checkoutInProcess")}</p>
             <p className="text-sm text-gray-500">
-              {t("calculatingTotalDesc", language)}
+              {t("calculatingTotalDesc")}
             </p>
           </div>
         )
@@ -91,9 +92,9 @@ export function OrderDetails({ order, language, onBack, onPayOutstanding }: Orde
       <header className="bg-white shadow-sm p-4">
         <div className="flex items-center justify-between">
           <Image src="/images/freshup-logo.png" alt="FreshUp" width={120} height={40} className="h-8 w-auto" />
-          <button onClick={() => {}} className="text-gray-600 text-sm font-medium">
-            {t("language", language)}
-          </button>
+                      <button onClick={() => {}} className="text-gray-600 text-sm font-medium">
+              {t("language")}
+            </button>
         </div>
       </header>
 
@@ -106,7 +107,7 @@ export function OrderDetails({ order, language, onBack, onPayOutstanding }: Orde
           >
             <ChevronLeft className="w-6 h-6 text-gray-600" />
           </button>
-          <h1 className="text-lg font-bold">{t("orderInfo", language)}</h1>
+          <h1 className="text-lg font-bold">{t("orderInfo")}</h1>
         </div>
       </div>
 
@@ -151,7 +152,7 @@ export function OrderDetails({ order, language, onBack, onPayOutstanding }: Orde
 
         {/* Itemized List */}
         <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
-          <h3 className="font-semibold text-gray-900 mb-3">{t("itemsPurchased", language)}</h3>
+          <h3 className="font-semibold text-gray-900 mb-3">{t("itemsPurchased")}</h3>
           <div className="space-y-3">
             {order.items.map((item) => (
               <div key={item.id} className="flex justify-between items-center">
@@ -168,7 +169,7 @@ export function OrderDetails({ order, language, onBack, onPayOutstanding }: Orde
           {/* Total */}
           <div className="border-t pt-3 mt-3">
             <div className="flex justify-between items-center">
-              <span className="font-semibold text-gray-900">{t("total", language)}</span>
+              <span className="font-semibold text-gray-900">{t("total")}</span>
               <span className="font-semibold text-gray-900">
                 ${order.total.toFixed(2)}
               </span>
@@ -179,7 +180,7 @@ export function OrderDetails({ order, language, onBack, onPayOutstanding }: Orde
         {/* Order Number */}
         <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100">
           <div className="flex justify-between items-center">
-            <span className="text-sm text-gray-500">{t("orderNo", language)}</span>
+            <span className="text-sm text-gray-500">{t("orderNo")}</span>
             <span className="text-sm font-medium text-gray-900">
               #{order.orderNumber}
             </span>
@@ -192,7 +193,7 @@ export function OrderDetails({ order, language, onBack, onPayOutstanding }: Orde
         {/* Contact Information */}
         <div className="text-center">
           <button className="text-blue-600 text-sm hover:underline">
-            {t("contactSupport", language)}
+            {t("contactSupport")}
           </button>
         </div>
       </div>

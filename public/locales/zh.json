@@ -75,5 +75,11 @@
   "calculatingTotalDesc": "可能需要一些時間，您可以稍後查看計算出的金額。",
   "myOrders": "我的訂單",
   "noOrdersFound": "沒有找到訂單",
-  "deposited": "已存入"
+  "deposited": "已存入",
+  "item_one": "{{count}} 件物品",
+  "item_other": "{{count}} 件物品",
+  "order_one": "{{count}} 個訂單",
+  "order_other": "{{count}} 個訂單",
+  "test_one": "{{count}} 個測試",
+  "test_other": "{{count}} 個測試"
 } 
